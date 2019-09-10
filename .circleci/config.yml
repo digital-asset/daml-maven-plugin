@@ -1,0 +1,57 @@
+#
+# Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: 2.1
+
+executors:
+  daml-executor:
+    docker:
+      - image: circleci/openjdk:11.0-jdk
+
+commands:
+  install_sdk:
+    description: "Install the DAML SDK"
+    parameters:
+      version:
+        type: string
+    steps:
+      - run:
+          command: |
+            ./scripts/install-daml.sh << parameters.version >>
+
+jobs:
+  mvn_test:
+    parameters:
+      daml_sdk_version:
+        type: string
+    executor: daml-executor
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - m2-{{ checksum "pom.xml" }}-{{ checksum ".circleci/config.yml" }}
+      - install_sdk:
+          version: << parameters.daml_sdk_version >>
+      - run:
+          command: |
+            export PATH=${HOME}/.daml/bin:${PATH}
+            mvn verify
+      - save_cache:
+          paths:
+            - ~/.m2
+            - ~/.daml
+          key: m2-{{ checksum "pom.xml" }}-{{ checksum ".circleci/config.yml" }}
+      - run:
+          name: Run Blackduck Detect
+          command: |
+            bash <(curl -s https://raw.githubusercontent.com/DACH-NY/security-blackduck/master/synopsys-detect) ci-build digitalasset_daml-maven-plugin master --logging.level.com.synopsys.integration=DEBUG  --detect.notices.report=true --detect.report.timeout=500
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - mvn_test:
+          daml_sdk_version: "0.13.20"
+          context: blackduck
