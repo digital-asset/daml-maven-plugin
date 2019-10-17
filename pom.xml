@@ -1,12 +1,36 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
- 
+
   <groupId>com.digitalasset</groupId>
   <artifactId>daml-maven-plugin</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.1</version>
   <packaging>maven-plugin</packaging>
  
-  <name>Plugin for DAML compilation and codegen</name>
+  <name>DAML Maven plugin</name>
+  <description>Plugin for DAML compilation and codegen</description>
+  <url>https://daml.com</url>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <!-- Contact for developers on project -->
+  <developers>
+    <developer>
+      <name>Digital Asset</name>
+      <email>sdk-feedback@digitalasset.com</email>
+      <organization>Digital Asset</organization>
+      <organizationUrl>https://github.com/digital-asset</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <url>https://github.com/digital-asset/daml-maven-plugin</url>
+  </scm>
 
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -68,6 +92,43 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.8</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
+
+  <!-- We are deploying to Sonatype, so enter Sonatype Distribution Stuff Here -->
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/releases</url>
+    </repository>
+  </distributionManagement>
 </project>

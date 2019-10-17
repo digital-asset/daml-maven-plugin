@@ -1,0 +1,22 @@
+<settings xmlns="http://maven.apache.org/settings/1.0.0">
+    <servers>
+        <server>
+            <id>ossrh</id>
+            <username>${env.MAVEN_LOGIN}</username>
+            <password>${env.MAVEN_PASSWORD}</password>
+        </server>
+    </servers>
+    <profiles>
+        <profile>
+            <id>ossrh</id>
+            <properties>
+                <gpg.executable>gpg</gpg.executable>
+                <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
+                <gpg.passphraseServerId>${env.GPG_SIGNING_KEY_ID}</gpg.passphraseServerId>
+            </properties>
+        </profile>
+    </profiles>
+    <activeProfiles>
+        <activeProfile>ossrh</activeProfile>
+    </activeProfiles>
+</settings>
