@@ -1,3 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+    SPDX-License-Identifier: Apache-2.0
+
+-->
 <project>
   <modelVersion>4.0.0</modelVersion>
 
@@ -116,6 +123,36 @@
           <nexusUrl>https://oss.sonatype.org/</nexusUrl>
           <autoReleaseAfterClose>true</autoReleaseAfterClose>
         </configuration>
+      </plugin>
+      <!-- add license headers to every source file -->
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>3.0</version>
+        <configuration>
+          <header>src/license/header.txt</header>
+          <excludes>
+            <exclude>**/README</exclude>
+            <exclude>*.log</exclude>
+            <exclude>LICENSE</exclude>
+            <exclude>src/license/*</exclude>
+          </excludes>
+          <mapping>
+            <daml>DOUBLEDASHES_STYLE</daml>
+            <Dockerfile-bots>SCRIPT_STYLE</Dockerfile-bots>
+            <Dockerfile-sandbox>SCRIPT_STYLE</Dockerfile-sandbox>
+            <Dockerfile-navigator>SCRIPT_STYLE</Dockerfile-navigator>
+          </mapping>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+              <goal>format</goal>
+              <goal>remove</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
