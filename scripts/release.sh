@@ -12,18 +12,18 @@ fi
 
 MAVEN_LOGIN="${1}"
 MAVEN_PASSWORD="${2}"
-SIGNING_KEY="${3}"
+GPG_SIGNING_KEY="${3}"
 GPG_PASSPHRASE="${4}"
 SDK_VERSION="${5}"
 BASE_DIR="$(dirname "$(readlink -f "$0")")"
 
-${BASE_DIR}/install-daml.sh ${SDK_VERSION}
+"${BASE_DIR}"/install-daml.sh "${SDK_VERSION}"
 
 # Import a key
-echo ${GPG_SIGNING_KEY} | base64 -d &> my.key
+echo "${GPG_SIGNING_KEY}" | base64 -d &> my.key
 gpg --import my.key &> gpg.out
 # We need to get the id and cut the : from it
-GPG_SIGNING_KEY_ID=$(cat gpg.out | grep 'gpg: key ' | sort | head -1 | cut -f3 -d' ' | cut -f1 -d':')
+GPG_SIGNING_KEY_ID=$(grep 'gpg: key ' gpg.out | sort | head -1 | cut -f3 -d' ' | cut -f1 -d':')
 
 # Export environment variables for Maven release process
 export PATH=$PATH:~/.daml/bin
@@ -32,7 +32,7 @@ export MAVEN_PASSWORD
 export GPG_SIGNING_KEY_ID
 export GPG_PASSPHRASE
 
-export PROJECT_VERSION="$(cat VERSION)"
+PROJECT_VERSION="$(cat VERSION)"
 
-mvn versions:set -DnewVersion=${VERSION} -DgenerateBackupPoms=false
+mvn versions:set -DnewVersion="${PROJECT_VERSION}" -DgenerateBackupPoms=false
 mvn clean package deploy -B -P release --settings ./scripts/settings.xml
