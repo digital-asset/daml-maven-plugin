@@ -20,7 +20,8 @@ public class Compile extends MojoBase {
 
     public void execute() throws MojoExecutionException, MojoFailureException {
         ProcessBuilder pb =
-                new ProcessBuilder("daml", "build", "-o", darName).redirectErrorStream(true);
+                new ProcessBuilder(Commands.DAML, "build", "-o", darName).redirectErrorStream(true);
+        getLog().info("Running DAML command: " + String.join(" ", pb.command()));
         try {
             Process daml = pb.start();
             redirectOutput(daml.getInputStream());
