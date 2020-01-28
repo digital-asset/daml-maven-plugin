@@ -31,13 +31,14 @@ public class DocsGen extends MojoBase {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        List<String> args = new ArrayList(Arrays.asList("daml", "damlc", "docs", "-o", docsOutput, "-f", format));
+        List<String> args = new ArrayList<>(Arrays.asList(Commands.DAML, "damlc", "docs", "-o", docsOutput, "-f", format));
         if (combined) {
             args.add("--combine");
         }
         args.addAll(damlFiles);
         ProcessBuilder pb =
                 new ProcessBuilder(args).redirectErrorStream(true);
+        getLog().info("Running DAML command: " + String.join(" ", pb.command()));
         try {
             Process daml = pb.start();
             redirectOutput(daml.getInputStream());

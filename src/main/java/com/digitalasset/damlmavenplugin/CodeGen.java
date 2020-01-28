@@ -133,20 +133,11 @@ public class CodeGen extends MojoBase {
     private static String getDamlVersion() throws MojoFailureException {
         String errorMsg =
                 "Cannot determine project sdk version. Make sure that `daml.yaml` includes a line specifying `sdk-version`.";
-        try {
-            InputStream in = Files.newInputStream(Paths.get("daml.yaml"));
-            try (Scanner scanner = new Scanner(in)) {
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine().trim();
-                    if (line.startsWith("sdk-version:")) {
-                        return line.substring(12).trim();
-                    }
-                }
-            } finally {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    // whatever
+        try (Scanner scanner = new Scanner(Paths.get("daml.yaml"))) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine().trim();
+                if (line.startsWith("sdk-version:")) {
+                    return line.substring(12).trim();
                 }
             }
         } catch (IOException e) {
