@@ -31,7 +31,7 @@ public class DocsGen extends MojoBase {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        List<String> args = new ArrayList(Arrays.asList(Commands.DAML, "damlc", "docs", "-o", docsOutput, "-f", format));
+        List<String> args = new ArrayList<>(Arrays.asList(Commands.DAML, "damlc", "docs", "-o", docsOutput, "-f", format));
         if (combined) {
             args.add("--combine");
         }
