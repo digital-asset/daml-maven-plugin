@@ -23,7 +23,7 @@ BASE_DIR="$(dirname "$(readlink -f "$0")")"
 echo "${GPG_SIGNING_KEY}" | base64 -d &> my.key
 gpg --import my.key &> gpg.out
 # We need to get the id and cut the : from it
-GPG_SIGNING_KEY_ID=$(cat gpg.out | grep 'gpg: key ' | sort | head -1 | cut -f3 -d' ' | cut -f1 -d':')
+GPG_SIGNING_KEY_ID=$(grep 'gpg: key ' gpg.out | sort | head -1 | cut -f3 -d' ' | cut -f1 -d':')
 
 # Export environment variables for Maven release process
 export PATH=$PATH:~/.daml/bin
