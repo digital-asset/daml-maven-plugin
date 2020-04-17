@@ -10,7 +10,7 @@
 
   <groupId>com.digitalasset</groupId>
   <artifactId>daml-maven-plugin</artifactId>
-  <version>0.1</version>
+  <version>0.1.2</version>
   <packaging>maven-plugin</packaging>
  
   <name>DAML Maven plugin</name>
