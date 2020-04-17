@@ -73,11 +73,11 @@ workflows:
   build_and_test:
     jobs:
       - mvn_test:
-          daml_sdk_version: "0.13.20"
+          daml_sdk_version: "1.0.0"
           context: blackduck
   build_and_release:
     jobs:
       - mvn_publish:
           <<: *only-master
-          daml_sdk_version: "0.13.20"
+          daml_sdk_version: "1.0.0"
           context: github-refapp-repo-context
