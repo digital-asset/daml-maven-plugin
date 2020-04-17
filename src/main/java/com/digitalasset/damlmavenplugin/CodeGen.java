@@ -68,7 +68,7 @@ public class CodeGen extends MojoBase {
         };
 
         getLog().info("Checking if java bindings version matches `daml.yaml`");
-        String sdkVersion = "10" + getDamlVersion();
+        String sdkVersion = getDamlVersion();
         String bindingsVersion = findJavaBindingsVersion();
         if (!sdkVersion.equals(bindingsVersion)) {
             throw new MojoFailureException("SDK version in `daml.yaml` does not match java bindings version. " +

@@ -44,7 +44,7 @@ public class CompileTest {
     public File createDamlFile() throws IOException {
         File file = new File("daml.yaml");
         List<String> lines = Arrays.asList(
-                "sdk-version: 0.13.18",
+                "sdk-version: 1.0.0",
                 "scenario: Test:test",
                 "source: src/test/daml/Test.daml",
                 "name: test",
