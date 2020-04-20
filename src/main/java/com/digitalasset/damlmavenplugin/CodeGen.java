@@ -90,7 +90,7 @@ public class CodeGen extends MojoBase {
             getLog().info("Resolved to " + artifact.getFile());
 
             // creating a new classLoader so that the dependencies won't clash with the dependencies of the host project
-            String mainClass = "com.digitalasset.daml.lf.codegen.Main";
+            String mainClass = "com.daml.lf.codegen.Main";
             URL codeGenDepURL = artifact.getFile().toPath().toUri().toURL();
             ClassLoader classLoader = getClassLoader(codeGenDepURL);
 
