@@ -76,8 +76,8 @@ public class CodeGen extends MojoBase {
         }
 
         DefaultArtifactCoordinate coordinate = new DefaultArtifactCoordinate();
-        coordinate.setGroupId("com.daml.java");
-        coordinate.setArtifactId("codegen");
+        coordinate.setGroupId("com.daml");
+        coordinate.setArtifactId("codegen-java");
         coordinate.setVersion(sdkVersion);
 
         ProjectBuildingRequest buildingRequest =
