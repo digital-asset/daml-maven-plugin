@@ -10,9 +10,9 @@
 
   <groupId>com.digitalasset</groupId>
   <artifactId>daml-maven-plugin</artifactId>
-  <version>0.1.3</version>
+  <version>0.1.4</version>
   <packaging>maven-plugin</packaging>
- 
+
   <name>DAML Maven plugin</name>
   <description>Plugin for DAML compilation and codegen</description>
   <url>https://daml.com</url>
@@ -48,7 +48,7 @@
     <maven-project.version>2.2.1</maven-project.version>
     <artifact-transfer.version>0.9.1</artifact-transfer.version>
   </properties>
- 
+
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
