@@ -56,7 +56,7 @@ jobs:
           command: |
             bash <(curl -s https://raw.githubusercontent.com/DACH-NY/security-blackduck/master/synopsys-detect) ci-build digitalasset_daml_maven_plugin main --logging.level.com.synopsys.integration=DEBUG --detect.notices.report=true --detect.report.timeout=480
       - run:
-          command: cp digitalasset_daml_maven_plugin_master_Black_Duck_Notices_Report.txt NOTICE
+          command: cp digitalasset_daml_maven_plugin_main_Black_Duck_Notices_Report.txt NOTICE
       - persist_to_workspace:
           root: .
           paths:
