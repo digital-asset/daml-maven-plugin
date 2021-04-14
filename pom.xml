@@ -8,7 +8,7 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.daml</groupId>
+  <groupId>com.daml.extensions</groupId>
   <artifactId>daml-maven-plugin</artifactId>
   <version>0.1.4</version>
   <packaging>maven-plugin</packaging>

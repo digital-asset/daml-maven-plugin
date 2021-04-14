@@ -15,7 +15,7 @@ Then add this plugin:
 
 ```
 <plugin>
-    <groupId>com.daml</groupId>
+    <groupId>com.daml.extensions</groupId>
     <artifactId>daml-maven-plugin</artifactId>
     <version>${daml-plugin.version}</version>
     <executions>
