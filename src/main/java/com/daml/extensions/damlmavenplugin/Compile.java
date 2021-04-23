@@ -18,9 +18,12 @@ public class Compile extends MojoBase {
     @Parameter(defaultValue = "${project.build.directory}/${project.artifactId}.dar")
     String darName;
 
+    @Parameter(defaultValue = "${basedir}")
+    String projectRoot;
+
     public void execute() throws MojoExecutionException, MojoFailureException {
         ProcessBuilder pb =
-                new ProcessBuilder(Commands.DAML, "build", "-o", darName).redirectErrorStream(true);
+                new ProcessBuilder(Commands.DAML, "build", "-o", darName, "--project-root", projectRoot).redirectErrorStream(true);
         getLog().info("Running DAML command: " + String.join(" ", pb.command()));
         try {
             Process daml = pb.start();

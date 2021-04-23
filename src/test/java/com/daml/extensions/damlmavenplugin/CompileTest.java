@@ -23,6 +23,7 @@ public class CompileTest {
     public void noDaml() throws MojoExecutionException, MojoFailureException {
         Compile compile = new Compile();
         compile.darName = "target/test.dar";
+        compile.projectRoot = ".";
         compile.execute();
     }
 
@@ -32,6 +33,7 @@ public class CompileTest {
         try {
             Compile compile = new Compile();
             compile.darName = "target/test.dar";
+            compile.projectRoot = ".";
             compile.execute();
 
             File darFile = new File(compile.darName);
