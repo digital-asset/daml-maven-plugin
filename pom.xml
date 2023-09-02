@@ -10,7 +10,7 @@
 
   <groupId>com.daml.extensions</groupId>
   <artifactId>daml-maven-plugin</artifactId>
-  <version>0.1.5</version>
+  <version>0.1.6-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>DAML Maven plugin</name>
@@ -42,11 +42,12 @@
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <junit.version>4.13.1</junit.version>
-    <maven-plugin.version>3.5</maven-plugin.version>
-    <maven-plugin-api.version>3.0</maven-plugin-api.version>
+    <junit.version>4.13.2</junit.version>
+    <maven-plugin.version>3.9.0</maven-plugin.version>
+    <maven-plugin-api.version>3.9.4</maven-plugin-api.version>
     <maven-project.version>2.2.1</maven-project.version>
-    <artifact-transfer.version>0.9.1</artifact-transfer.version>
+    <artifact-transfer.version>0.13.1</artifact-transfer.version>
+    <daml.sdk.version>2.7.1</daml.sdk.version>
   </properties>
 
   <dependencies>
@@ -71,11 +72,6 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.apache.maven.shared</groupId>
-      <artifactId>maven-artifact-transfer</artifactId>
-      <version>0.11.0</version>
-    </dependency>
 
     <!-- dependencies to annotations -->
     <dependency>
@@ -99,6 +95,18 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.1.2</version>
+        <configuration>
+          <systemPropertyVariables>
+            <daml.sdk.version>${daml.sdk.version}</daml.sdk.version>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
@@ -128,17 +136,20 @@
       <plugin>
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
-        <version>3.0</version>
+        <version>4.2</version>
         <configuration>
           <header>src/license/header.txt</header>
           <excludes>
             <exclude>**/README</exclude>
             <exclude>*.log</exclude>
             <exclude>LICENSE</exclude>
+            <exclude>VERSION</exclude>
             <exclude>src/license/*</exclude>
+            <exclude>.daml/**</exclude>
           </excludes>
           <mapping>
             <daml>DOUBLEDASHES_STYLE</daml>
+            <java>JAVADOC_STYLE</java>
             <Dockerfile-bots>SCRIPT_STYLE</Dockerfile-bots>
             <Dockerfile-sandbox>SCRIPT_STYLE</Dockerfile-sandbox>
             <Dockerfile-navigator>SCRIPT_STYLE</Dockerfile-navigator>
