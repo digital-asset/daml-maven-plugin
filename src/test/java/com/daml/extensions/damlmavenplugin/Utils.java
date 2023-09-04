@@ -11,13 +11,20 @@ import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
 
-public class Utils{
+import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.plugin.MojoFailureException;
 
-    public static File createDamlFile() throws IOException {
+public class Utils {
+
+    public static File createDamlFile() throws MojoFailureException {
         File file = new File("daml.yaml");
+        String sdkVersion = System.getProperty("daml.sdk.version");
+        if (StringUtils.isEmpty(sdkVersion)) {
+            throw new MojoFailureException("System property daml.sdk.version is unspecified");
+
+        }
         List<String> lines = Arrays.asList(
-                "sdk-version: 2.7.1",
-                "scenario: Test:test",
+                "sdk-version: " + sdkVersion,
                 "source: src/test/daml/Test.daml",
                 "name: test",
                 "version: 1.0.0",
@@ -26,12 +33,15 @@ public class Utils{
                 "dependencies:",
                 "  - daml-prim",
                 "  - daml-stdlib",
-                "  - daml-script"
-        );
-        Files.write(file.toPath(),
+                "  - daml-script");
+        try {
+            Files.write(file.toPath(),
                     lines,
                     StandardOpenOption.CREATE,
                     StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            throw new MojoFailureException("Error writing daml.yaml", e);
+        }
         return file;
     }
 
