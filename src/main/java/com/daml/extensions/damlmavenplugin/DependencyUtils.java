@@ -25,7 +25,7 @@ public abstract class DependencyUtils {
         return new DependencyUtils() {
             @Override
             protected void downloadDependency(URL url, Path target) throws IOException {
-                log.info(String.format("Download daml dependency %s -> %s", url, target));
+                log.info(String.format("Downloading daml dependency %s -> %s", url, target));
                 FileUtils.copyURLToFile(url, target.toFile());
             }
         };

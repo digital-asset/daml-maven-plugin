@@ -5,7 +5,6 @@
 package com.daml.extensions.damlmavenplugin;
 
 import java.io.IOException;
-import java.nio.file.Path;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -20,14 +19,8 @@ public class Compile extends MojoBase {
     String darName;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
-        Path damlYaml = getDamlYamlFile();
-        try {
-            DamlProject project = DamlProject.create(damlYaml);
-            DependencyUtils.defaultInstance(getLog()).downloadDependencyDars(project.getDependencyPaths());
-		} catch (IOException e) {
-            throw new MojoFailureException("Cannot load daml.yaml", e);
-		}
-
+        DamlProject project = DamlProject.create();
+        DependencyUtils.defaultInstance(getLog()).downloadDependencyDars(project.getDependencyPaths());
 
         ProcessBuilder pb = new ProcessBuilder(Commands.DAML, "build", "-o", darName).redirectErrorStream(true);
         getLog().info("Running DAML command: " + String.join(" ", pb.command()));
