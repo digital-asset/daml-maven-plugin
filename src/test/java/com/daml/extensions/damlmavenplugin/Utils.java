@@ -21,8 +21,8 @@ public class Utils {
         String sdkVersion = System.getProperty("daml.sdk.version");
         if (StringUtils.isEmpty(sdkVersion)) {
             throw new MojoFailureException("System property daml.sdk.version is unspecified");
-
         }
+
         List<String> lines = Arrays.asList(
                 "sdk-version: " + sdkVersion,
                 "source: src/test/daml/Test.daml",
