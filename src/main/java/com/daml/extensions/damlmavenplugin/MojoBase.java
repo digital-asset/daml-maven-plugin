@@ -4,18 +4,35 @@
  */
 package com.daml.extensions.damlmavenplugin;
 
-import org.apache.maven.plugin.AbstractMojo;
-
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
+
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoFailureException;
 
 public abstract class MojoBase extends AbstractMojo {
 
     protected void redirectOutput(InputStream in) {
-        Scanner scanner = new Scanner(in);
-        while (scanner.hasNextLine()) {
-            getLog().info(scanner.nextLine());
+        try (Scanner scanner = new Scanner(in)) {
+            while (scanner.hasNextLine()) {
+                getLog().info(scanner.nextLine());
+            }
         }
+    }
+
+    protected Path getDamlYamlFile() throws MojoFailureException {
+        Path cwd = Paths.get("").toAbsolutePath();
+        while (cwd != null) {
+            Path damlYaml = cwd.resolve("daml.yaml");
+            if (Files.exists(damlYaml)) {
+                return damlYaml;
+            }
+            cwd = cwd.getParent();
+        }
+        throw new MojoFailureException("daml.yaml file not found");
     }
 
 }
