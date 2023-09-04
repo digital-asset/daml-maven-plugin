@@ -38,9 +38,6 @@ public class CodeGen extends MojoBase {
     @Parameter(defaultValue = "${project.build.directory}/${project.artifactId}.dar")
     private String darName;
 
-    @Parameter(defaultValue = "${project.baseDir}")
-    private String damlYamlDir;
-
     @Parameter(defaultValue = "daml.Decorder")
     private String decoderClass;
 
