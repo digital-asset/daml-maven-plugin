@@ -4,6 +4,15 @@
  */
 package com.daml.extensions.damlmavenplugin;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.List;
+import java.util.Optional;
+
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.execution.MavenSession;
@@ -19,17 +28,6 @@ import org.apache.maven.project.ProjectBuildingRequest;
 import org.apache.maven.shared.transfer.artifact.DefaultArtifactCoordinate;
 import org.apache.maven.shared.transfer.artifact.resolve.ArtifactResolver;
 import org.apache.maven.shared.transfer.artifact.resolve.ArtifactResolverException;
-import java.io.IOException;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
 
 @Mojo(name = "codegen", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class CodeGen extends MojoBase {
@@ -115,6 +113,7 @@ public class CodeGen extends MojoBase {
         return new URLClassLoader(new URL[] { cp });
     }
 
+    @SuppressWarnings("unchecked")
     private String findJavaBindingsVersion() throws MojoFailureException {
         Optional<Artifact> codegenOpt = project
                 .getDependencyArtifacts()
@@ -128,19 +127,11 @@ public class CodeGen extends MojoBase {
         }
     }
 
-    private static String getDamlVersion() throws MojoFailureException {
-        String errorMsg =
-                "Cannot determine project sdk version. Make sure that `daml.yaml` includes a line specifying `sdk-version`.";
-        try (Scanner scanner = new Scanner(Paths.get("daml.yaml"))) {
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine().trim();
-                if (line.startsWith("sdk-version:")) {
-                    return line.substring(12).trim();
-                }
-            }
-        } catch (IOException e) {
-            throw new MojoFailureException(errorMsg, e);
+    private String getDamlVersion() throws MojoFailureException {
+        String sdkVersion = DamlProject.create().getSdkVersion();
+        if (sdkVersion == null || sdkVersion.isEmpty()) {
+            throw new MojoFailureException("Cannot determine project sdk version. Make sure that `daml.yaml` includes a line specifying `sdk-version`.");
         }
-        throw new MojoFailureException(errorMsg);
+        return sdkVersion;
     }
 }
