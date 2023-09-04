@@ -1,0 +1,15 @@
+#
+# Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+#
+
+sdk-version: 2.7.1
+source: src/test/daml/Test.daml
+name: test
+version: 1.0.0
+parties:
+  party
+dependencies:
+  - daml-prim
+  - daml-stdlib
+  - daml-script

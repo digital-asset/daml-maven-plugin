@@ -41,4 +41,4 @@ export GPG_PASSPHRASE
 PROJECT_VERSION="$(cat VERSION)"
 
 mvn versions:set -DnewVersion="${PROJECT_VERSION}" -DgenerateBackupPoms=false
-mvn clean package deploy -B -P release --settings ./scripts/settings.xml
+mvn clean package deploy -B --settings ./scripts/settings.xml

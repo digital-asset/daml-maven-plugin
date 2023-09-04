@@ -10,11 +10,11 @@ executors:
     docker:
       - image: circleci/openjdk:11.0-jdk
 
-only-master: &only-master
+only-main: &only-main
   filters:
     branches:
       only:
-        - master
+        - main
         - mvn-central-release
 
 commands:
@@ -54,9 +54,9 @@ jobs:
       - run:
           name: Run Blackduck Detect
           command: |
-            bash <(curl -s https://raw.githubusercontent.com/DACH-NY/security-blackduck/master/synopsys-detect) ci-build digitalasset_daml_maven_plugin master --logging.level.com.synopsys.integration=DEBUG --detect.notices.report=true --detect.report.timeout=480
+            bash <(curl -s https://raw.githubusercontent.com/DACH-NY/security-blackduck/master/synopsys-detect) ci-build digitalasset_daml_maven_plugin main --logging.level.com.synopsys.integration=DEBUG --detect.notices.report=true --detect.report.timeout=480
       - run:
-          command: cp digitalasset_daml_maven_plugin_master_Black_Duck_Notices_Report.txt NOTICE
+          command: cp digitalasset_daml_maven_plugin_main_Black_Duck_Notices_Report.txt NOTICE
       - persist_to_workspace:
           root: .
           paths:
@@ -102,14 +102,14 @@ workflows:
   build_and_test:
     jobs:
       - blackduck_check:
-          daml_sdk_version: "1.0.0"
+          daml_sdk_version: "2.7.1"
           context: blackduck
       - mvn_test:
-          daml_sdk_version: "1.0.0"
+          daml_sdk_version: "2.7.1"
           context: blackduck
   build_and_release:
     jobs:
       - mvn_publish:
-          <<: *only-master
-          daml_sdk_version: "1.0.0"
+          <<: *only-main
+          daml_sdk_version: "2.7.1"
           context: github-refapp-repo-context

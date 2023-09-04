@@ -4,13 +4,13 @@
  */
 package com.daml.extensions.damlmavenplugin;
 
+import java.io.IOException;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-
-import java.io.IOException;
 
 @Mojo(name = "damlcompile", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class Compile extends MojoBase {
@@ -19,8 +19,10 @@ public class Compile extends MojoBase {
     String darName;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
-        ProcessBuilder pb =
-                new ProcessBuilder(Commands.DAML, "build", "-o", darName).redirectErrorStream(true);
+        DamlProject project = DamlProject.create();
+        DependencyUtils.defaultInstance(getLog()).downloadDependencyDars(project.getDependencyPaths());
+
+        ProcessBuilder pb = new ProcessBuilder(Commands.DAML, "build", "-o", darName).redirectErrorStream(true);
         getLog().info("Running DAML command: " + String.join(" ", pb.command()));
         try {
             Process daml = pb.start();
