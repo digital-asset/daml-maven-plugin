@@ -10,6 +10,12 @@ then
     exit 1
 fi
 
+if [ $(grep SNAPSHOT VERSION) ]
+then
+    echo "Not releasing snapshots"
+    exit 0
+fi
+
 MAVEN_LOGIN="${1}"
 MAVEN_PASSWORD="${2}"
 GPG_SIGNING_KEY="${3}"

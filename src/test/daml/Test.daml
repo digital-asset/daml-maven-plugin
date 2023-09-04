@@ -3,8 +3,9 @@
 -- SPDX-License-Identifier: Apache-2.0
 --
 
-daml 1.2
 module Test where
+
+import Daml.Script
 
 template Empty
   with
@@ -12,10 +13,10 @@ template Empty
   where
     signatory party
 
-    controller party can
-      DoArchive: ()
+    choice DoArchive : ()
+      controller party
         do
           return ()
 
-test = scenario do
-  return ()
+test : Script ()
+test = pure ()
