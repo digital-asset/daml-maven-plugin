@@ -36,8 +36,9 @@ public class DocsGen extends MojoBase {
             args.add("--combine");
         }
         args.addAll(damlFiles);
-        ProcessBuilder pb =
-                new ProcessBuilder(args).redirectErrorStream(true);
+        ProcessBuilder pb = new ProcessBuilder(args)
+            .directory(damlProjectDirectory)
+            .redirectErrorStream(true);
         getLog().info("Running DAML command: " + String.join(" ", pb.command()));
         try {
             Process daml = pb.start();

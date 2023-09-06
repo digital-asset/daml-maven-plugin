@@ -128,7 +128,7 @@ public class CodeGen extends MojoBase {
     }
 
     private String getDamlVersion() throws MojoFailureException {
-        String sdkVersion = DamlProject.create().getSdkVersion();
+        String sdkVersion = createDamlProject().getSdkVersion();
         if (sdkVersion == null || sdkVersion.isEmpty()) {
             throw new MojoFailureException("Cannot determine project sdk version. Make sure that `daml.yaml` includes a line specifying `sdk-version`.");
         }
