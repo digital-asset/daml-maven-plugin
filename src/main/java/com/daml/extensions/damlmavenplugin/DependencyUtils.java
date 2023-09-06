@@ -6,6 +6,7 @@ package com.daml.extensions.damlmavenplugin;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -42,6 +43,9 @@ public abstract class DependencyUtils {
     }
 
     private void processDependency(Path dep) throws IOException {
+        if (Files.exists(dep))
+            return;
+
         String filename = dep.getFileName().toString();
         Matcher matcher = dependencyPattern.matcher(filename);
         if (matcher.matches()) {

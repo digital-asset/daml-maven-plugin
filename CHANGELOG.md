@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Finding daml.yaml in multi-module maven project.
+- Don't download dependencies if they exist.
 
 ### Added
 
