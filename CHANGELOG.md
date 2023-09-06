@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Finding daml.yaml in multi-module maven project.
+
+### Added
+
+- Added `damlProjectDirectory` setting to the plugin if the daml project is not the same as the maven project directory.
+
+## [0.1.6]
+
 ### Changed
 
 - Updated bulid dependencies

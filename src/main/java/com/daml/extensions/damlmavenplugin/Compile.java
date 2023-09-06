@@ -19,11 +19,16 @@ public class Compile extends MojoBase {
     String darName;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
-        DamlProject project = DamlProject.create();
+        DamlProject project = createDamlProject();
         DependencyUtils.defaultInstance(getLog()).downloadDependencyDars(project.getDependencyPaths());
 
-        ProcessBuilder pb = new ProcessBuilder(Commands.DAML, "build", "-o", darName).redirectErrorStream(true);
-        getLog().info("Running DAML command: " + String.join(" ", pb.command()));
+        ProcessBuilder pb = new ProcessBuilder(Commands.DAML, "build", "-o", darName)
+            .directory(damlProjectDirectory)
+            .redirectErrorStream(true);
+
+        getLog().info(String.format("Running DAML command at %s: %s",
+                                    getDamlProjectDirectory(),
+                                    String.join(" ", pb.command())));
         try {
             Process daml = pb.start();
             redirectOutput(daml.getInputStream());
