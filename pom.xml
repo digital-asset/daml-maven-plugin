@@ -10,7 +10,7 @@
 
   <groupId>com.daml.extensions</groupId>
   <artifactId>daml-maven-plugin</artifactId>
-  <version>0.1.6</version>
+  <version>0.2.0-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>DAML Maven plugin</name>
