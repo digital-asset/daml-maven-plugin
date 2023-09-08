@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,7 +33,7 @@ public abstract class DependencyUtils {
 
     public void downloadDependencyDars(List<Path> dependencies) throws MojoExecutionException {
         try {
-            for(Path dep : dependencies) {
+            for (Path dep : dependencies) {
                 processDependency(dep);
             }
         } catch (IOException e) {
@@ -52,13 +51,13 @@ public abstract class DependencyUtils {
             String packageName = matcher.group(1);
             String version = matcher.group(3);
             String moduleName = WordUtils
-                .capitalize(packageName.replaceAll("-", "."), '.')
-                .replaceFirst("Contingent.Claims", "ContingentClaims"); // artifact names are not consistent :(
-            String path = Paths.get(
-                    "/digital-asset/daml-finance/releases/download",
-                    moduleName, version,
-                    String.format("/%s-%s.dar", packageName, version))
-                    .toString();
+                    .capitalize(packageName.replaceAll("-", "."), '.')
+                    .replaceFirst("Contingent.Claims", "ContingentClaims"); // artifact names are not consistent :(
+            String path = String.format("/digital-asset/daml-finance/releases/download/%s/%s/%s-%s.dar",
+                    moduleName,
+                    version,
+                    packageName,
+                    version);
             URL dependencyUrl = new URL("https", "github.com", path);
 
             downloadDependency(dependencyUrl, dep);
